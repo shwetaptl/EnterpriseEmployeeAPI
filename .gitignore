@@ -4,3 +4,4 @@
 *.suo
 *.user
 **/PublishProfiles
+packages/

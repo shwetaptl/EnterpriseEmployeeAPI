@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using BusinessModel;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Web.Configuration;
 
 namespace RestWebAPI.Controllers
 {
     public class TokenController : ApiController
     {
         /// <summary>
-        /// Use the below code to generate symmetric Secret Key
+        /// Use the below code to generate a new symmetric secret key:
         ///     var hmac = new HMACSHA256();
         ///     var key = Convert.ToBase64String(hmac.Key);
+        /// Store the result in Web.config appSettings under "JwtSecret".
         /// </summary>
-        private const string Secret = "db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw==";
+        private static readonly string Secret = ConfigurationManager.AppSettings["JwtSecret"];
 
         public static string GenerateToken(string username, int expireMinutes = 30)
         {
@@ -72,7 +73,7 @@ namespace RestWebAPI.Controllers
                 return principal;
             }
 
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }

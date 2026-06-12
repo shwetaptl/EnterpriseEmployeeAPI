@@ -13,10 +13,10 @@ namespace BusinessService
     public class LoginService : ILoginService
     {
         #region Dependencies
-        public ILoginDataService _loginDataService { get; set; }
+        private readonly ILoginDataService _loginDataService;
         #endregion
 
-        #region  Constructor
+        #region Constructor
         public LoginService(ILoginDataService loginDataService)
         {
             _loginDataService = loginDataService;

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Web.Http;
 using BusinessModel;
 using BusinessServiceInterface;
@@ -15,10 +11,10 @@ namespace RestWebAPI.Controllers
     public class LoginController : ApiController
     {
         #region Dependencies
-        public ILoginService _loginService { get; set; }
+        private readonly ILoginService _loginService;
         #endregion
 
-        #region  Constructor
+        #region Constructor
         public LoginController(ILoginService loginService)
         {
             _loginService = loginService;
@@ -26,35 +22,28 @@ namespace RestWebAPI.Controllers
         #endregion
 
         [Route("UserLogin")]
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage UserLogin([FromBody] LoginBORequest objBORequest)
         {
-            //if (ModelState.IsValid)
-            //{
-                UserLoginInfoBOResponse objBOResponse = _loginService.UserLoginInfo(objBORequest);
-                if (objBOResponse.userId != 0)
-                {
-                    //If get user then implement JWT token.
-                    string access_token=TokenController.GenerateToken(objBOResponse.firstName,2);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, access_token);
-                }
-                else
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
-                }
-            //}
-            //return Request.CreateResponse(HttpStatusCode.BadRequest, ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage);
+            UserLoginInfoBOResponse objBOResponse = _loginService.UserLoginInfo(objBORequest);
+            if (objBOResponse.userId != 0)
+            {
+                string access_token = TokenController.GenerateToken(objBOResponse.firstName, 2);
+                return Request.CreateResponse(HttpStatusCode.OK, access_token);
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
         }
 
         [Route("GetEmployeeList")]
         [JwtAuthentication]
         [HttpGet]
-        public IHttpActionResult GetEmployeeList()
+        public IHttpActionResult GetEmployeeList([FromUri] int userId)
         {
-            var objBOResponse = _loginService.GetEmployeeList(4893);
+            var objBOResponse = _loginService.GetEmployeeList(userId);
             return Ok(objBOResponse);
-        }        
-
+        }
     }
 }
