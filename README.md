@@ -5,7 +5,7 @@
 ![Swagger](https://img.shields.io/badge/Swagger-Swashbuckle-green?logo=swagger)
 ![JWT](https://img.shields.io/badge/Auth-JWT-orange?logo=jsonwebtokens)
 
-A production-style ASP.NET Web API that exposes an internal corporate employee directory. Built to demonstrate **enterprise-grade backend architecture** — not just how to scaffold a controller, but how to structure a maintainable, testable, multi-layer .NET API.
+A production-style ASP.NET Web API that exposes an internal corporate employee directory.
 
 ---
 
@@ -300,9 +300,3 @@ This project targets **.NET Framework 4.6.1**, which was the enterprise standard
 | ORM | EF 6.x, Dapper, ADO.NET | EF Core, Dapper (unchanged), `Microsoft.Data.SqlClient` |
 
 The n-tier structure, repository pattern, interface-based DI, and `BOResponse<T>` envelope pattern all carry over directly. Migrating this project to .NET 8 would be a natural next step.
-
----
-
-## Related Projects
-
-- [QueueBacklogIntelligence](https://github.com/shwetaptl/QueueBacklogIntelligence) — Azure Service Bus monitoring system with React dashboard and Docker. Complements this project by demonstrating cloud-native message processing alongside backend API architecture.
